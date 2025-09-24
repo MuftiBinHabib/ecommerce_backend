@@ -1,18 +1,20 @@
 const { default: mongoose } = require("mongoose");
-
-const signupSchema = new mongoose.Schema({
+const bcrypt =require('bcrypt');
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: [true, "name is required"],
+        minlength: [3, "Username must be at least 3 character long"],
     },
     email:{
         type: String,
-        required: true ,
-        unique: true
+        required: [true, "email is required"],
+        unique: true,
+        match: [/^\S+@\S+\.\S+$/, "Please enter a valid email"],
     },
     password:{
         type: String,
-        required:true
+        required: [true, "password is required"],
     },
     phone: {
         type:Number,
@@ -23,9 +25,21 @@ const signupSchema = new mongoose.Schema({
         
     },
     role:{
+        type: String,
         enum:["user" , "admin"],
-        default:"user"
-    } ,createdAt:{
+     } ,createdAt:{
 
     },
 }, {timestamps:true})
+
+
+userSchema.pre("save", async (next)=>{
+  if (!this.isModified("password")) return next();
+
+  this.password = await bcrypt.hash(this.password, 10)
+
+  next();
+})
+
+
+module.exports = mongoose.model("User" , userSchema)
