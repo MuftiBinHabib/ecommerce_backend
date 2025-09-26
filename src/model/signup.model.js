@@ -27,9 +27,14 @@ const userSchema = new mongoose.Schema({
     role:{
         type: String,
         enum:["user" , "admin"],
-     } ,createdAt:{
-
-    },
+     },
+     otp:{
+        type:Number
+     },
+     verify:{
+        type:Boolean,
+        default: false
+     }
 }, {timestamps:true})
 
 
