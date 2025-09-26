@@ -8,7 +8,7 @@ const signupController = async (req, res, next) => {
     const { name, email, password, phone, image, role } = req.body;
 
 
-    let otp = generateOTP;
+    let otp = generateOTP();
     
     // Hash password
     const hash = await bcrypt.hash(password, 10);
