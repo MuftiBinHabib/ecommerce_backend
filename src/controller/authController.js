@@ -24,7 +24,7 @@ const signupController = async (req, res, next) => {
     const user = new userModel({
       name,
       email,
-      password: hash,
+      password,
       phone,
       image,
       role,
@@ -117,6 +117,8 @@ const alluserController = async (req,res,next)=>{
 
   }
 }
+
+
 
 
 module.exports = { signupController, verifyOtpController ,loginController , alluserController};
